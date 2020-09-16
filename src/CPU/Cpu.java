@@ -8,6 +8,7 @@ public class Cpu {
 	private static Palavra memoria[] = new Palavra[TAM];
 	private static int[] registradores = new int[8];
 	private static int progCount = 0;
+	private static PCB[] processos = new PCB[64];
 
 	public Cpu() {}
 
@@ -104,7 +105,7 @@ public class Cpu {
 		}
 	}
 
-	//aloca o programa chamado a partir do program counter
+	//aloca o programa chamado a partir do program counter(TEM QUE VERIFICAR SE TEM ESPAÇO)
 	private void carregaMemoria(Palavra[] p) {
 		for (int i = progCount; i < (progCount + p.length); i++) // Load program into memoria
 			memoria[i] = p[i];
