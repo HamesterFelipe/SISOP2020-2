@@ -40,9 +40,9 @@ public class Gm {
     //retorna o primeiro endereço de memoria do frame que foi enviada por parametro(tem que mostrar a partir de qual frame da mesma ta disponivel)
     public int alocar(int ID) {
         int aux = -1;
-
+        livres[ID] = false;
         for (int i = 0; i < 64; i++) {
-            if (paginas[i] == ID) {
+            if (frames[i] == ID) {
                 aux = i + 1;
             }
         }
@@ -50,8 +50,8 @@ public class Gm {
             return aux * 16;
         } else {
             for (int i = 0; i < 64; i++) {
-                if (paginas[i] == -1) {
-                    paginas[i] = ID;
+                if (frames[i] == -1) {
+                    frames[i] = ID;
                     return (i + 1) * 16;
                 }
             }
@@ -59,11 +59,25 @@ public class Gm {
         return aux;
     }
 
-
-    //Desaloca frame selecionada
-    public void Desaloca(int limiteSup) {
-        for (int i = limiteSup - 15; i < limiteSup; i++) {
+    //Desaloca frame selecionada e posições de memoria na cpu
+    public void Desaloca(int frame) {
+        boolean[frame] = true;
+        for (int i = frame * 16; i < (((frame+1)*16))-1; i++) {
             cpu.desalocaMemoria(i);
         }
     }
+
+    //encerraProcesso recebendo id do processo
+    public void encerraProcesso(int id){
+		for(int i = 0; i < 64; i++){
+			if(cpu.processos[i].getID() == id){
+                int[] aux = cpu.processos[i].getFrames(); 
+				for(int j = 0; j < aux.length; j++){
+                    Desaloca(aux[j]);
+                }
+                cpu.processos[i] = null;
+			}
+        }        
+    }
+    
 }

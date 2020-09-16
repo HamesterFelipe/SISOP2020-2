@@ -9,6 +9,7 @@ public class Cpu {
 	private static int[] registradores = new int[8];
 	private static int progCount = 0;
 	private static PCB[] processos = new PCB[64];
+	private static GM gm;
 
 	public Cpu() {}
 
@@ -35,6 +36,7 @@ public class Cpu {
 		carregaMemoria(p);
 		memoriaToString();
 	}
+
 
 	private void leMemoria() {
 		boolean stopped = false;

@@ -21,7 +21,5 @@ public class PCB {
 
     public int getID(){
         return ID;
-    }
-
-    
+    }   
 }
