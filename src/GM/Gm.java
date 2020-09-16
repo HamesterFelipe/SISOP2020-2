@@ -12,6 +12,7 @@ public class Gm {
             frames[i] = -1;
         }
         setLivres(new boolean[64]);
+
     }
 
     //retorna um array de int com as posiçoes dos frames livres
@@ -27,7 +28,10 @@ public class Gm {
         return aux;
     }
 
-    public void setLivres(boolean[] livres) {this.livres = livres;}
+    public void setLivres(boolean[] livres) {
+        for(int i = 0; i< livres.length - 1; i++) livres[i] = true;
+        this.livres = livres;
+    }
     
     //ocupa o frame no valor que foi enviado
     public void setOcupado(int i){
@@ -38,7 +42,8 @@ public class Gm {
         return true;
     }
 
-    //retorna o primeiro endereço de memoria do frame que foi enviada por parametro(tem que mostrar a partir de qual frame da mesma ta disponivel)
+    //retorna o primeiro endereço de memoria do frame que foi enviada
+    //por parametro(tem que mostrar a partir de qual frame da mesma ta disponivel)
     public int alocar(int ID) {
         int aux = -1;
         livres[ID] = false;
@@ -53,7 +58,7 @@ public class Gm {
             for (int i = 0; i < 64; i++) {
                 if (frames[i] == -1) {
                     frames[i] = ID;
-                    return (i + 1) * 16;
+                    return i * 16;
                 }
             }
         }

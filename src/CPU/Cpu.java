@@ -10,31 +10,31 @@ public class Cpu {
 	private static int[] registradores = new int[8];
 	private static int progCount = 0;
 	public static PCB[] processos = new PCB[64];
-	private static Gm gm;
+	private static Gm gm = new Gm();
 
 	public Cpu() {}
 
 	public void execP1() {
 		Palavra p[] = new Programas().fibonacci10();
-		carregaMemoria(p);
+		alocaPrograma(p);
 		memoriaToString();
 	}
 
 	public void execP2() {
 		Palavra p[] = new Programas().fibonaccin();
-		carregaMemoria(p);
+		alocaPrograma(p);
 		memoriaToString();
 	}
 
 	public void execP3() {
 		Palavra p[] = new Programas().fatorial();
-		carregaMemoria(p);
+		alocaPrograma(p);
 		memoriaToString();
 	}
 
 	public void execP4() {
 		Palavra p[] = new Programas().bubblesort();
-		carregaMemoria(p);
+		alocaPrograma(p);
 		memoriaToString();
 	}
 
@@ -109,10 +109,42 @@ public class Cpu {
 	}
 
 	//aloca o programa chamado a partir do program counter(TEM QUE VERIFICAR SE TEM ESPAÇO)
-	private void carregaMemoria(Palavra[] p) {
-		for (int i = progCount; i < (progCount + p.length); i++) // Load program into memoria
-			memoria[i] = p[i];
-		leMemoria(); // Read loaded program
+	// private void carregaMemoria(Palavra[] p) {
+	// 	for (int i = progCount; i < (progCount + p.length); i++) // Load program into memoria
+	// 		memoria[i] = p[i];
+	// 	leMemoria(); // Read loaded program
+	// }
+
+	private void carregaMemoria(Palavra[] p, int programInitialPosition, int memoryInitialPosition){
+		for(int i=0; i < 16; i++){
+			if(programInitialPosition == p.length - 1) break;
+			memoria[memoryInitialPosition + i] = p[programInitialPosition];
+
+			programInitialPosition++;
+		}
+	}
+
+	private void alocaPrograma(Palavra[] p){
+		int[] framesLivres = gm.getLivres();
+
+		int tamanhoPrograma = p.length - 1;
+		int framesOcupados = tamanhoPrograma / 16;
+		if(tamanhoPrograma%16 != 0) framesOcupados += 1;
+
+		if(framesOcupados > framesLivres.length - 1){
+			System.out.println("Não existe espaço disponível na memória");
+			return;
+		}
+
+		//Percorre todos os frames que o programa deve ocupar, alocando ele:
+	    for(int i = 0; i < framesOcupados ; i++){
+
+			int programInitialPosition = 16 * i;
+			int memoryInitialPosition = gm.alocar(framesLivres[i]);
+
+			//Carrega Programa no Frame livre:
+			carregaMemoria(p, programInitialPosition, memoryInitialPosition);
+		}
 	}
 
 	private static int getRegistrador(String registrador) {
