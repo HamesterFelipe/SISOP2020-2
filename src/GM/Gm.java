@@ -16,14 +16,15 @@ public class Gm {
 
     //retorna um array de int com as posiçoes dos frames livres
     public int[] getLivres() {
-        int[] aux = new int[64]
+        int[] aux = new int[64];
         int pos = 0;
         for(int i = 0; i < 64; i++){
             if(livres[i]==true){
-                int[pos] = i;
+                aux[pos] = i;
                 pos++; 
             }
         }
+        return aux;
     }
 
     public void setLivres(boolean[] livres) {this.livres = livres;}
@@ -61,7 +62,7 @@ public class Gm {
 
     //Desaloca frame selecionada e posições de memoria na cpu
     public void Desaloca(int frame) {
-        boolean[frame] = true;
+        livres[frame] = true;
         for (int i = frame * 16; i < (((frame+1)*16))-1; i++) {
             cpu.desalocaMemoria(i);
         }

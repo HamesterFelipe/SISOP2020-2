@@ -1,3 +1,5 @@
+package CPU;
+
 public class PCB {
     private int[] framesOcupados;
     private int primeiraPosição, ultimaPosição;

@@ -1,6 +1,7 @@
 package CPU;
 
 import Programas.Programas;
+import GM.Gm;
 
 public class Cpu {
 
@@ -8,8 +9,8 @@ public class Cpu {
 	private static Palavra memoria[] = new Palavra[TAM];
 	private static int[] registradores = new int[8];
 	private static int progCount = 0;
-	private static PCB[] processos = new PCB[64];
-	private static GM gm;
+	public static PCB[] processos = new PCB[64];
+	private static Gm gm;
 
 	public Cpu() {}
 
