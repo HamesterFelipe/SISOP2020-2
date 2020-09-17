@@ -7,12 +7,12 @@ public class Programas {
 	//Fibonacci-10
 	private static Palavra[] p1 = new Palavra[] {
 		new Palavra("LDI", "r1", 0),
-		new Palavra("STD", 50, "r1"),
+		new Palavra("STD", 250, "r1"),
 		new Palavra("LDI", "r2", 1),
-		new Palavra("STD", 51, "r2"),
-		new Palavra("LDI", "r0", 52),
+		new Palavra("STD", 251, "r2"),
+		new Palavra("LDI", "r0", 252),
 		new Palavra("LDI", "r6", 5),
-		new Palavra("LDI", "r7", 61),
+		new Palavra("LDI", "r7", 261),
 		new Palavra("LDI", "r3", 0),
 		new Palavra("ADD", "r3", "r1"),
 		new Palavra("LDI", "r1", 0),
