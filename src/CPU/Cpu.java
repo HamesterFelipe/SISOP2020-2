@@ -52,7 +52,7 @@ public class Cpu {
 				int lerAte = (rodaFrame[j]*16)+15;
 				progCount = posMemoria;
 				int stopped = 0;
-				for(int k = posMemoria; k <= lerAte + 1   ;k++) {					
+				for(int k = progCount; progCount < lerAte + 1  ;) {					
 					if(stopped == 1){
 						System.out.println("achou stopped  ");
 						break;
