@@ -67,7 +67,8 @@ public class Main {
 		System.out.println("|5 = Mostrar memoria                           |");
 		System.out.println("|6 = Encerrar programa                         |");
 		System.out.println("|7 = Listar programas em memoria               |");
-		System.out.println("|8 = Sair                                      |");
+		System.out.println("|8 = Executar programas                        |");
+		System.out.println("|9 = Sair                                      |");
 		System.out.println("=========THE ULTIMATE VIRTUAL MACHINE==========");
 	}
 }
