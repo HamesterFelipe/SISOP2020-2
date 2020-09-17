@@ -36,6 +36,13 @@ public class Main {
 				case 6:
 					closed = true;
 					break;
+				case 7:
+					cpu.mostraProgramas();
+					menu();
+					break;
+				case 8:
+					cpu.encerraProcesso();
+					break;
 				default:
 					System.err.print("Programa não encontrado!\n");
 			}

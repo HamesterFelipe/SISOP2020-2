@@ -2,6 +2,7 @@ package CPU;
 
 import Programas.Programas;
 import GM.Gm;
+import java.util.Scanner;
 
 public class Cpu {
 
@@ -10,9 +11,10 @@ public class Cpu {
 	private static int[] registradores = new int[8];
 	private static int progCount = 0;
 	public static PCB[] processos = new PCB[64];
-	private static Gm gm = new Gm();
+	public static Gm gm = new Gm();
 
 	public Cpu() {}
+
 
 	public void execP1() {
 		Palavra p[] = new Programas().fibonacci10();
@@ -127,7 +129,7 @@ public class Cpu {
 	private void alocaPrograma(Palavra[] p){
 		int[] framesLivres = gm.getLivres();
 
-		int tamanhoPrograma = p.length - 1;
+		int tamanhoPrograma = p.length;
 		int framesOcupados = tamanhoPrograma / 16;
 		if(tamanhoPrograma%16 != 0) framesOcupados += 1;
 
@@ -136,15 +138,28 @@ public class Cpu {
 			return;
 		}
 
+		int[] frames = new int[framesOcupados];
+
 		//Percorre todos os frames que o programa deve ocupar, alocando ele:
 	    for(int i = 0; i < framesOcupados ; i++){
 
+			frames[i] = framesLivres[i];
 			int programInitialPosition = 16 * i;
 			int memoryInitialPosition = gm.alocar(framesLivres[i]);
 
 			//Carrega Programa no Frame livre:
 			carregaMemoria(p, programInitialPosition, memoryInitialPosition);
 		}
+		
+		for(int j = 0; j< processos.length -1; j++){
+			if(processos[j] == null){
+				System.out.println("Frames: " + frames[0]);
+				PCB processo = new PCB(j, frames);
+				processos[j] = processo;
+				break;
+			}
+		}
+
 	}
 
 	private static int getRegistrador(String registrador) {
@@ -298,4 +313,33 @@ public class Cpu {
         memoria[n] = null;
     }
 
+	public void mostraProgramas(){
+		for(int i= 0; i< processos.length; i++){
+			if(processos[i] != null){
+				System.out.println(processos[i].toString());
+			}
+		}
+	}
+
+	 //encerraProcesso recebendo id do processo
+	 public void encerraProcesso(){
+		System.out.println("Informe o ID do processo que deseja encerrar:");
+		Scanner scan = new Scanner(System.in);
+
+		int id = scan.nextInt();
+
+		for(int i = 0; i < 64; i++){
+			
+			if(processos[i] != null && processos[i].getID() == id){
+                int[] aux = processos[i].getFrames(); 
+				for(int j = 0; j < aux.length; j++){
+					gm.Desaloca(aux[j]);
+					for (int x = aux[j] * 16; x <= (((aux[j]+1)*16))-1; x++) {
+						desalocaMemoria(x);
+					}
+                }
+                processos[i] = null;
+			}
+        }        
+    }
 }
