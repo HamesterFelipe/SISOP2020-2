@@ -12,6 +12,7 @@ public class Cpu {
 	private static int progCount = 0;
 	public static PCB[] processos = new PCB[64];
 	public static Gm gm = new Gm();
+	public static int frameAtual;
 
 	public Cpu() {}
 
@@ -40,6 +41,12 @@ public class Cpu {
 		memoriaToString();
 	}
 
+	public void limpaRegistradores(){
+		for(int i=0; i<8;i++){
+			registradores[i] = 0;
+		}
+	}
+
 	public void executaProg(){
 		int qntProc = 0;
 		for(PCB processo : processos){
@@ -49,11 +56,13 @@ public class Cpu {
 			int[] rodaFrame = processos[i].getFrames();
 			for(int j=0;j<rodaFrame.length;j++){
 				int posMemoria = rodaFrame[j]*16;
-				int lerAte = (rodaFrame[j]*16)+15;
+				int lerAte = (rodaFrame[j]*16)+16;
 				progCount = posMemoria;
+				frameAtual = rodaFrame[j];
 				int stopped = 0;
-				for(int k = progCount; progCount < lerAte + 1  ;) {					
+				for(int k = progCount; progCount < lerAte;) {					
 					if(stopped == 1){
+						limpaRegistradores();
 						System.out.println("achou stopped  ");
 						break;
 					}
@@ -64,6 +73,7 @@ public class Cpu {
 					}
 					//System.out.println("pc : "+ progCount);
 					Palavra pos = memoria[progCount];
+					if(pos == null) break;
 					switch (pos.OPCode) {			
 						case "STOP":
 							stopped = 1;
@@ -127,81 +137,6 @@ public class Cpu {
 		}
 	}
 
-	private void leMemoria() {
-		boolean stopped = false;
-
-		while (!stopped) {
-			if (progCount >= memoria.length)
-				break;
-
-			Palavra pos = memoria[progCount];
-			switch (memoria[progCount].OPCode) {
-				case "STOP":
-					stopped = true;
-					break;
-				case "JMP":
-					JMP(pos.num);
-					break;
-				case "JMPI":
-					JMPI(pos.r1);
-					break;
-				case "JMPIG":
-					JMPIG(pos.r1, pos.r2);
-					break;
-				case "JMPIL":
-					JMPIL(pos.r1, pos.r2);
-					break;
-				case "JMPIE":
-					JMPIE(pos.r1, pos.r2);
-					break;
-				case "ADDI":
-					ADDI(pos.r1, pos.num);
-					break;
-				case "SUBI":
-					SUBI(pos.r1, pos.num);
-					break;
-				case "LDI":
-					LDI(pos.r1, pos.num);
-					break;
-				case "LDD":
-					LDD(pos.r1, pos.num);
-					break;
-				case "STD":
-					STD(pos.num, pos.r2);
-					break;
-				case "ADD":
-					ADD(pos.r1, pos.r2);
-					break;
-				case "SUB":
-					SUB(pos.r1, pos.r2);
-					break;
-				case "MULT":
-					MULT(pos.r1, pos.r2);
-					break;
-				case "LDX":
-					LDX(pos.r1, pos.r2);
-					break;
-				case "STX":
-					STX(pos.r1, pos.r2);
-					break;
-				case "SWAP":
-					SWAP(pos.r1, pos.r2);
-					break;
-				default:
-					System.err.println("Operacao invalida: " + pos.label);
-					System.exit(1);
-			}
-			printRegistradores();
-			progCount++;
-		}
-	}
-
-	//aloca o programa chamado a partir do program counter(TEM QUE VERIFICAR SE TEM ESPAÇO)
-	// private void carregaMemoria(Palavra[] p) {
-	// 	for (int i = progCount; i < (progCount + p.length); i++) // Load program into memoria
-	// 		memoria[i] = p[i];
-	// 	leMemoria(); // Read loaded program
-	// }
 
 	private void carregaMemoria(Palavra[] p, int programInitialPosition, int memoryInitialPosition){
 		for(int i=0; i < 16; i++){
@@ -273,12 +208,15 @@ public class Cpu {
 	}
 
 	public void JMP(int k) {
+		k += (frameAtual * 16);
 		progCount = k;
 	}
 
 	public void JMPI(String Rs) {
 		int aux = getRegistrador(Rs);
-		progCount = registradores[aux];
+
+		aux += (frameAtual * 16);
+		progCount = registradores[aux] + (frameAtual * 16);
 	}
 
 	public void JMPIG(String Rs, String Rc) {
@@ -286,7 +224,7 @@ public class Cpu {
 		int aux2 = getRegistrador(Rs);
 
 		if (registradores[aux1] > 0) {
-			progCount = registradores[aux2];
+			progCount = registradores[aux2] + (frameAtual * 16);
 		}
 	}
 
@@ -295,7 +233,7 @@ public class Cpu {
 		int aux2 = getRegistrador(Rs);
 
 		if (registradores[aux1] < 0) {
-			progCount = registradores[aux2];
+			progCount = registradores[aux2] + (frameAtual * 16);
 		}
 	}
 
@@ -304,7 +242,7 @@ public class Cpu {
 		int aux2 = getRegistrador(Rs);
 
 		if (registradores[aux1] == 0) {
-			progCount = registradores[aux2];
+			progCount = registradores[aux2] + (frameAtual * 16);
 		}
 	}
 

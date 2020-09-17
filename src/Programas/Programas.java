@@ -26,18 +26,18 @@ public class Programas {
 	};
 
 	private static Palavra[] p2 = new Palavra[] {
-		new Palavra("LDI", "r4", 5), 		
-		new Palavra("LDI", "r5", 5),		
+		new Palavra("LDI", "r4", 6), 		
+		new Palavra("LDI", "r5", 6),		
 		new Palavra("JMPIL", "r5", "r4"),	
-		new Palavra("STD", 49, "r4"), 		
-		new Palavra("LDI", "r0", 51), 		
+		new Palavra("STD", 349, "r4"), 		
+		new Palavra("LDI", "r0", 351), 		
 		new Palavra("LDI", "r1", 0), 		
-		new Palavra("STD", 50, "r1"), 		
+		new Palavra("STD", 350, "r1"), 		
 		new Palavra("LDI", "r2", 1), 		
-		new Palavra("STD", 51, "r2"), 		
+		new Palavra("STD", 351, "r2"), 		
 		new Palavra("LDI", "r6", 8), 		
-		new Palavra("LDD", "r7", 49),		
-		new Palavra("ADDI", "r7", 52), 	
+		new Palavra("LDD", "r7", 349),		
+		new Palavra("ADDI", "r7", 352), 	
 		new Palavra("LDI", "r3", 0), 		
 		new Palavra("ADD", "r3", "r1"), 	
 		new Palavra("LDI", "r1", 0), 		
@@ -49,12 +49,12 @@ public class Programas {
 		new Palavra("JMPIG", "r6", "r7"), 	
 		new Palavra("STOP"), 				
 		new Palavra("LDI", "r4", -1),		
-		new Palavra("STD", 50, "r4"),		
+		new Palavra("STD", 350, "r4"),		
 		new Palavra("STOP")				
 	};
 	
 	private static Palavra[] p3 = new Palavra[] {
-		new Palavra("LDI", "r0", 3), 			
+		new Palavra("LDI", "r0", 5), 			
 		new Palavra("LDI", "r5", 11), 
 		new Palavra("JMPIL", "r5", "r0"), 
 		new Palavra("LDI", "r6", 6),
@@ -64,10 +64,10 @@ public class Programas {
 		new Palavra("MULT", "r0", "r1"), 
 		new Palavra("SUBI", "r1", 1), 
 		new Palavra("JMPIG", "r6", "r1"), 
-		new Palavra("STD", 50, "r0"),
+		new Palavra("STD", 550, "r0"),
 		new Palavra("STOP"),
 		new Palavra("LDI", "r0", -1),
-		new Palavra("STD", 50, "r0"),
+		new Palavra("STD", 550, "r0"),
 		new Palavra("STOP")
 	};
 	
