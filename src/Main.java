@@ -33,18 +33,19 @@ public class Main {
 					cpu.memoriaToString();
 					menu();
 					break;
-				case 6:
-					closed = true;
+				case 6:					
+					cpu.encerraProcesso();
+					menu();
 					break;
 				case 7:
 					cpu.mostraProgramas();
 					menu();
 					break;
 				case 8:
-					cpu.encerraProcesso();
+					closed = true;
 					break;
 				default:
-					System.err.print("Programa não encontrado!\n");
+					System.err.print("Opção não encontrado!\n");
 			}
 			s.nextLine();
 		}
@@ -54,13 +55,15 @@ public class Main {
 	//CRIAR NOVOS limpar memoria(todas paginas), limpar pagina(só uma pagina), ao selecionar o programa descobrir em qual frame de qual pagina botar(e retornar)
 	private static void menu() {
 		System.out.println("=========THE ULTIMATE VIRTUAL MACHINE==========");
-		System.out.println("|Escolha um dos programas abaixo:             |");
-		System.out.println("|1 = fibonacci-10                             |");
-		System.out.println("|2 = fibonacci-n                              |");
-		System.out.println("|3 = fatorial                                 |");
-		System.out.println("|4 = bubblesort                               |");
-		System.out.println("|5 = mostrar memoria                          |");
-		System.out.println("|6 = sair                                     |");
+		System.out.println("|Escolha uma das programas abaixo:             |");
+		System.out.println("|1 = Fibonacci-10                              |");
+		System.out.println("|2 = Fibonacci-n                               |");
+		System.out.println("|3 = Fatorial                                  |");
+		System.out.println("|4 = Bubblesort                                |");
+		System.out.println("|5 = Mostrar memoria                           |");
+		System.out.println("|6 = Encerrar programa                         |");
+		System.out.println("|7 = Listar programas em memoria               |");
+		System.out.println("|8 = Sair                                      |");
 		System.out.println("=========THE ULTIMATE VIRTUAL MACHINE==========");
 	}
 }
