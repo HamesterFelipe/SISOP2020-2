@@ -15,7 +15,7 @@ public class Cpu {
 
 	public Cpu() {}
 
-
+	//nao executa só bota na memoria
 	public void execP1() {
 		Palavra p[] = new Programas().fibonacci10();
 		alocaPrograma(p);
@@ -40,6 +40,92 @@ public class Cpu {
 		memoriaToString();
 	}
 
+	public void executaProg(){
+		int qntProc = 0;
+		for(PCB processo : processos){
+			if(processo != null){qntProc++;}
+		}
+		for(int i=0;i<qntProc;i++){
+			int[] rodaFrame = processos[i].getFrames();
+			for(int j=0;j<rodaFrame.length;j++){
+				int posMemoria = rodaFrame[j]*16;
+				int lerAte = (rodaFrame[j]*16)+15;
+				progCount = posMemoria;
+				int stopped = 0;
+				for(int k = posMemoria; k <= lerAte + 1   ;k++) {					
+					if(stopped == 1){
+						System.out.println("achou stopped  ");
+						break;
+					}
+					//System.out.println("PC : "+ progCount);
+					if (progCount >= memoria.length){
+						System.out.println("quebra : ");
+						break;
+					}
+					//System.out.println("pc : "+ progCount);
+					Palavra pos = memoria[progCount];
+					switch (pos.OPCode) {			
+						case "STOP":
+							stopped = 1;
+							break;
+						case "JMP":
+							JMP(pos.num);
+							break;
+						case "JMPI":
+							JMPI(pos.r1);
+							break;
+						case "JMPIG":
+							JMPIG(pos.r1, pos.r2);
+							break;
+						case "JMPIL":
+							JMPIL(pos.r1, pos.r2);
+							break;
+						case "JMPIE":
+							JMPIE(pos.r1, pos.r2);
+							break;
+						case "ADDI":
+							ADDI(pos.r1, pos.num);
+							break;
+						case "SUBI":
+							SUBI(pos.r1, pos.num);
+							break;
+						case "LDI":
+							LDI(pos.r1, pos.num);
+							break;
+						case "LDD":
+							LDD(pos.r1, pos.num);
+							break;
+						case "STD":
+							STD(pos.num, pos.r2);
+							break;
+						case "ADD":
+							ADD(pos.r1, pos.r2);
+							break;
+						case "SUB":
+							SUB(pos.r1, pos.r2);
+							break;
+						case "MULT":
+							MULT(pos.r1, pos.r2);
+							break;
+						case "LDX":
+							LDX(pos.r1, pos.r2);
+							break;
+						case "STX":
+							STX(pos.r1, pos.r2);
+							break;
+						case "SWAP":
+							SWAP(pos.r1, pos.r2);
+							break;
+						default:
+							System.err.println("Operacao invalida: " + pos.label);
+							System.exit(1);
+					}
+					printRegistradores();
+					progCount++;
+				}
+			}
+		}
+	}
 
 	private void leMemoria() {
 		boolean stopped = false;

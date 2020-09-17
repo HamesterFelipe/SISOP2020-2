@@ -42,6 +42,10 @@ public class Main {
 					menu();
 					break;
 				case 8:
+					cpu.executaProg();
+					menu();
+					break;
+				case 9:
 					closed = true;
 					break;
 				default:
