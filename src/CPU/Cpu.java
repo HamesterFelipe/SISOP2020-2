@@ -119,7 +119,7 @@ public class Cpu {
 
 	private void carregaMemoria(Palavra[] p, int programInitialPosition, int memoryInitialPosition){
 		for(int i=0; i < 16; i++){
-			if(programInitialPosition == p.length - 1) break;
+			if(programInitialPosition == p.length) break;
 			memoria[memoryInitialPosition + i] = p[programInitialPosition];
 
 			programInitialPosition++;
@@ -145,6 +145,7 @@ public class Cpu {
 
 			frames[i] = framesLivres[i];
 			int programInitialPosition = 16 * i;
+			// if(programInitialPosition !=0) programInitialPosition -= 1;
 			int memoryInitialPosition = gm.alocar(framesLivres[i]);
 
 			//Carrega Programa no Frame livre:
